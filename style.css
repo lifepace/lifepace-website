@@ -1,0 +1,62 @@
+:root {
+  --bg: #0E1829;
+  --surface: #16243D;
+  --mint: #5EE0B8;
+  --ink: #FFFFFF;
+  --secondary: #A3B3CC;
+  --tertiary: #6B7C98;
+  --line: rgba(255, 255, 255, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.6 ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+a { color: var(--mint); }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+header { padding: 24px 0; border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; gap: 12px; }
+header img { width: 36px; height: 36px; border-radius: 9px; }
+header a.brand { color: var(--ink); text-decoration: none; font-weight: 700; font-size: 20px; }
+header nav { margin-left: auto; display: flex; gap: 16px; font-size: 15px; }
+header nav a { color: var(--secondary); text-decoration: none; }
+header nav a:hover { color: var(--mint); }
+
+.hero { text-align: center; padding: 72px 0 40px; }
+.hero img { width: 120px; height: 120px; border-radius: 28px; box-shadow: 0 0 60px rgba(94, 224, 184, 0.25); }
+.hero h1 { font-size: 44px; margin: 28px 0 8px; letter-spacing: -0.5px; }
+.hero p.lead { font-size: 21px; color: var(--secondary); margin: 0; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; padding: 32px 0; }
+.card { background: var(--surface); border-radius: 18px; padding: 20px; }
+.card h3 { margin: 0 0 6px; font-size: 17px; color: var(--mint); }
+.card p { margin: 0; color: var(--secondary); font-size: 15px; }
+
+.note { color: var(--tertiary); font-size: 15px; text-align: center; padding-bottom: 48px; }
+
+article { padding: 40px 0 64px; }
+article h1 { font-size: 34px; margin: 0 0 4px; }
+article h2 { font-size: 22px; margin: 36px 0 8px; }
+article h3 { font-size: 18px; margin: 24px 0 6px; }
+article .meta { color: var(--tertiary); margin: 0 0 24px; }
+article p, article li { color: #DDE5F2; }
+article table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 8px 0 16px; }
+article th, article td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+article th { color: var(--secondary); font-weight: 600; }
+
+footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--tertiary); font-size: 14px; }
+footer .wrap { display: flex; gap: 18px; flex-wrap: wrap; }
+footer a { color: var(--secondary); text-decoration: none; }
+
+@media (max-width: 520px) {
+  .hero h1 { font-size: 34px; }
+  .hero p.lead { font-size: 18px; }
+  header nav { gap: 12px; font-size: 14px; }
+}
