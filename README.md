@@ -5,13 +5,26 @@ Plain HTML and one stylesheet, no build step, no cookies, no external
 requests.
 
 ```text
-index.html     landing page
-privacy.html   privacy policy (app, planned Garmin connection, website)
-imprint.html   Impressum (§ 5 DDG)
-style.css      the app's palette: navy #0E1829, mint #5EE0B8
-icon.svg       the app icon, copied from lifepace-ios ios/design/AppIcon.svg
-CNAME          lifepace.eu, for GitHub Pages
+index.html               landing page
+privacy.html             privacy policy (app, planned Garmin connection, website)
+imprint.html             Impressum (§ 5 DDG)
+404.html                 "page not found", served by GitHub Pages for unknown paths
+style.css                the app's palette: navy #0E1829, mint #5EE0B8
+icon.svg                 the app icon, from lifepace-ios ios/design/AppIcon.svg
+favicon.ico              16, 32 and 48 px, rounded
+apple-touch-icon.png     180 px, square and opaque (iOS rounds it)
+icon-192.png, icon-512.png   rounded, for the web manifest
+icon-maskable-512.png    full bleed, for Android's own shapes
+og-image.png             1200 x 630 preview for links shared in chats and social media
+site.webmanifest         name, colours and icons for "Add to Home Screen"
+robots.txt, sitemap.xml  for search engines
+CNAME                    lifepace.eu
 ```
+
+The PNG icons are cut from the app's own
+`Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png`; regenerate them when
+the app icon changes. Pages link to `/...` from the site root, so open them
+through a local server (`python3 -m http.server`), not as files.
 
 ## Before it goes live
 
@@ -29,7 +42,9 @@ CNAME          lifepace.eu, for GitHub Pages
 ## Publish on GitHub Pages
 
 1. Repository Settings → Pages → Source: **GitHub Actions**. The workflow
-   `.github/workflows/pages.yml` deploys the site on every push to `main`.
+   `.github/workflows/pages.yml` deploys every tracked file except this
+   README and `.github/` on every push to `main`. GitHub Pages needs the
+   repository public, or a paid plan.
 2. At the domain registrar for lifepace.eu, add these DNS records:
    - four `A` records for `@`: 185.199.108.153, 185.199.109.153,
      185.199.110.153, 185.199.111.153;
