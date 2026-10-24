@@ -18,7 +18,7 @@ icon-maskable-512.png    full bleed, for Android's own shapes
 og-image.png             1200 x 630 preview for links shared in chats and social media
 site.webmanifest         name, colours and icons for "Add to Home Screen"
 robots.txt, sitemap.xml  for search engines
-CNAME                    lifepace.eu
+CNAME                    lifepace.eu (ignored by the Actions deployment; see below)
 ```
 
 The PNG icons are cut from the app's own
@@ -34,20 +34,65 @@ through a local server (`python3 -m http.server`), not as files.
 - Have the privacy policy reviewed. It describes the app as it is (all
   data on the iPhone) and the Garmin connection as planned (Tree M
   decisions M3, M4 in the engine's docs/review-2026-10-02/PLAN.md). Update
-  section 4 when that server exists, and section 5 if the site is not
-  hosted on GitHub Pages.
+  section 4 when that server exists. Section 5 names GitHub as the only
+  host; update it if the site moves elsewhere or if the Cloudflare records
+  below are switched to **Proxied** (Cloudflare then sees every request).
 - Keep section 3 in step with the app's Apple Health reads
   (lifepace-ios: `ios/Lifepace/Model/Health.swift`, `readTypes`).
 
-## Publish on GitHub Pages
+## Publish
 
-1. Repository Settings → Pages → Source: **GitHub Actions**. The workflow
+GitHub Pages serves the site; Cloudflare only answers DNS for lifepace.eu
+(registrar: webgo, nameservers: Cloudflare). The records stay **DNS only**
+(grey cloud), so visitors talk to GitHub directly and GitHub issues the
+HTTPS certificate.
+
+### 1. GitHub
+
+1. The repository must be public, or the `lifepace` organisation on a paid
+   plan; GitHub Pages does not serve private repositories on the free plan.
+2. Repository Settings → Pages → Source: **GitHub Actions**. The workflow
    `.github/workflows/pages.yml` deploys every tracked file except this
-   README and `.github/` on every push to `main`. GitHub Pages needs the
-   repository public, or a paid plan.
-2. At the domain registrar for lifepace.eu, add these DNS records:
-   - four `A` records for `@`: 185.199.108.153, 185.199.109.153,
-     185.199.110.153, 185.199.111.153;
-   - a `CNAME` record for `www`: `lifepace.github.io`.
-3. Settings → Pages → Custom domain: `lifepace.eu`, then tick **Enforce
-   HTTPS** once the certificate is issued.
+   README and `.github/` on every push to `main`. Run it once by hand
+   (Actions → website → Run workflow) if nothing was pushed since.
+3. Check <https://lifepace.github.io/> shows the landing page.
+
+### 2. Cloudflare DNS
+
+In the Cloudflare dashboard, lifepace.eu → DNS → Records:
+
+1. Delete the three `A` records left over from webgo (`*`, `lifepace.eu`,
+   `www`, all `185.30.32.175`). Do not keep a wildcard record: GitHub warns
+   that `*` pointing at Pages lets others claim subdomains.
+2. Add, all with Proxy status **DNS only**:
+
+   | Type  | Name  | Content                 |
+   |-------|-------|-------------------------|
+   | A     | `@`   | `185.199.108.153`       |
+   | A     | `@`   | `185.199.109.153`       |
+   | A     | `@`   | `185.199.110.153`       |
+   | A     | `@`   | `185.199.111.153`       |
+   | AAAA  | `@`   | `2606:50c0:8000::153`   |
+   | AAAA  | `@`   | `2606:50c0:8001::153`   |
+   | AAAA  | `@`   | `2606:50c0:8002::153`   |
+   | AAAA  | `@`   | `2606:50c0:8003::153`   |
+   | CNAME | `www` | `lifepace.github.io`    |
+
+3. Leave the mail records (`MX`, SPF `TXT`, `dkim._domainkey`, `_dmarc`)
+   alone while the mailboxes live at webgo; they deliver mail for
+   `hello@` and `privacy@lifepace.eu`. Replace them only together with
+   the mail provider.
+
+### 3. Custom domain
+
+1. Repository Settings → Pages → Custom domain: `lifepace.eu`, Save. The
+   `CNAME` file in this repository is not used by Actions deployments;
+   this setting is what counts.
+2. Wait for the DNS check to pass and the certificate to be issued (minutes
+   to an hour), then tick **Enforce HTTPS**.
+3. Recommended: Organisation settings → Pages → Add a verified domain
+   `lifepace.eu`, and add the `TXT` record GitHub shows in Cloudflare. This
+   stops other GitHub accounts from claiming the domain.
+
+Check: `https://lifepace.eu` and `https://www.lifepace.eu` both show the
+landing page with a valid certificate.
