@@ -28,17 +28,51 @@ through a local server (`python3 -m http.server`), not as files.
 
 ## Before it goes live
 
-- Fill in every `[FILL IN]` in `privacy.html` and `imprint.html`: name,
-  address and a working email address. Germany requires the imprint for
-  a site run from there.
-- Have the privacy policy reviewed. It describes the app as it is (all
-  data on the iPhone) and the Garmin connection as planned (Tree M
-  decisions M3, M4 in the engine's docs/review-2026-10-02/PLAN.md). Update
-  section 4 when that server exists. Section 5 names GitHub as the only
-  host; update it if the site moves elsewhere or if the Cloudflare records
-  below are switched to **Proxied** (Cloudflare then sees every request).
-- Keep section 3 in step with the app's Apple Health reads
+- Check that `info@lifepace.eu` (imprint and privacy policy) receives
+  mail. The domain's MX points to webgo (`s175.goserver.host`); the
+  mailbox or forward must exist there. The MX accepts any recipient at
+  `RCPT TO` (an invented address gets `250` too), so only a test mail
+  that arrives in the inbox proves it.
+- Imprint and privacy policy name Martin Jöhren and Alexander Schardt as
+  private persons. Update both pages once a company is registered (name,
+  legal form, register court and number, VAT ID).
+- Have the privacy policy reviewed. It describes LifePace as it will work
+  at launch: an account, plans made on the server, and the athlete record
+  of Tree M (decisions M1-M4 in the engine's
+  docs/review-2026-10-02/PLAN.md). Section 9 still has to name the hosting
+  provider, the sign-in provider and the weather service. Section 10
+  names GitHub as the only host of this site; update it if the site moves
+  elsewhere or if the Cloudflare records below are switched to
+  **Proxied** (Cloudflare then sees every request). The review also
+  checks:
+  - how the two named operators are presented: without a company,
+    running LifePace together may make them a GbR or joint controllers
+    (Art. 26 GDPR), which can need a different name in section 1 and the
+    imprint, or a written arrangement between them.
+- Keep section 4's Apple Health table in step with the app's reads
   (lifepace-ios: `ios/Lifepace/Model/Health.swift`, `readTypes`).
+
+## Promises the product must keep
+
+The home page and the privacy policy describe LifePace at launch. Each
+promise below is either built in the engine or planned there; the app and
+the engine have to deliver it before launch, or the page changes first.
+
+| Promise (page) | Engine state |
+| --- | --- |
+| Plans from Apple Health runs or runs entered by hand (home) | runs and `usual_easy_run` built; manual entry is Tree M M-e |
+| First walk-run to marathon (home) | walk-run rungs and goals `general` to `marathon` built |
+| Morning check-in and pain report change today's session (home) | built (docs/10 §5) |
+| Pregnancy, postpartum, menopause, pelvic floor, bone (home) | built (docs/10 §9) |
+| Rules traced to a source or marked as our choice; plan says why it changed (home) | evidence labels and plan notes built; no LLM in the planning path |
+| Account, EU sign-in provider, only the subject id stored (policy 3) | Tree M M1, M-c; provider not named (`lifepace-qav.14`) |
+| Consent per health topic, fail closed, withdrawal deletes queued data too (policy 5) | Tree M M3, M-d. M3's topics do not yet cover every health input (screening, injuries, body measurements): map each before launch |
+| EU hosting, per-user key for health data, audited access (policy 6) | Tree M M4, M-b, M-c |
+| 24-month deletion with a 30-day email, raw device data 90 days, plan versions kept (policy 7) | Tree M M4, M-b, M-g |
+| Export, withdraw consent and delete the account in the app (policy 11) | Tree M M-b (export, deletion), M-d |
+| Garmin: activities; sleep, resting heart rate, HRV status with consent (policy 4) | Tree M M2, M-f; needs Garmin partner approval |
+| Race weather: only the location rounded to about 11 km leaves (policy 9) | built (docs/10 §9, "Handling the data"); off until launch |
+| Usage statistics only after the user switches on "Help improve LifePace", off by default (policy 2, 8) | `/v1/stats` built; the app sends it today without asking (owner decision 2026-10-25: opt-in). The app change is in lifepace-ios, not the engine |
 
 ## Publish
 
@@ -80,8 +114,7 @@ In the Cloudflare dashboard, lifepace.eu → DNS → Records:
 
 3. Leave the mail records (`MX`, SPF `TXT`, `dkim._domainkey`, `_dmarc`)
    alone while the mailboxes live at webgo; they deliver mail for
-   `hello@` and `privacy@lifepace.eu`. Replace them only together with
-   the mail provider.
+   `info@lifepace.eu`. Replace them only together with the mail provider.
 
 ### 3. Custom domain
 
