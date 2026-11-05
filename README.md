@@ -6,7 +6,7 @@ requests.
 
 ```text
 index.html               landing page
-privacy.html             privacy policy (app, planned Garmin connection, website)
+privacy.html             privacy policy (app, web, planned Garmin connection, website, launch notice)
 imprint.html             Impressum (§ 5 DDG)
 404.html                 "page not found", served by GitHub Pages for unknown paths
 style.css                the app's palette: navy #0E1829, mint #5EE0B8
@@ -32,7 +32,14 @@ through a local server (`python3 -m http.server`), not as files.
   mail. The domain's MX points to webgo (`s175.goserver.host`); the
   mailbox or forward must exist there. The MX accepts any recipient at
   `RCPT TO` (an invented address gets `250` too), so only a test mail
-  that arrives in the inbox proves it.
+  that arrives in the inbox proves it. The home page's "Tell me when it's
+  out" button is a `mailto:` link to it; collect those senders in one
+  folder, send them the one launch message, then delete them (privacy
+  policy section 10, "Launch notice"). Replace the link with a newsletter
+  provider's double opt-in form only together with that section.
+- Sign webgo's data processing agreement (Auftragsverarbeitungsvertrag) in
+  the webgo customer area: privacy policy section 9 names webgo as a
+  processor bound by one.
 - Imprint and privacy policy name Martin Jöhren and Alexander Schardt as
   private persons. Update both pages once a company is registered (name,
   legal form, register court and number, VAT ID).
@@ -60,11 +67,21 @@ the engine have to deliver it before launch, or the page changes first.
 
 | Promise (page) | Engine state |
 | --- | --- |
-| Plans from Apple Health runs or runs entered by hand (home) | runs and `usual_easy_run` built; manual entry is Tree M M-e |
+| Plans from Apple Health or Garmin runs, or runs entered by hand (home) | runs and `usual_easy_run` built; manual entry built in the web app (`internal/app/runlink.go`) |
 | First walk-run to marathon (home) | walk-run rungs and goals `general` to `marathon` built |
-| Morning check-in and pain report change today's session (home) | built (docs/10 §5) |
-| Pregnancy, postpartum, menopause, pelvic floor, bone (home) | built (docs/10 §9) |
+| "For iPhone, Apple Watch, Garmin and the web" (home) | web app at app.lifepace.eu built, sign-in limited to `allowed_emails` until launch; iPhone app (lifepace-ios) built as a client of it |
+| Structured workouts for the next seven days on Apple Watch and Garmin, updated with the plan (home) | Apple Watch: lifepace-ios `Model/WatchSchedule.swift` (WorkoutKit), built. Garmin calendar: `internal/garminconnect/training.go`, built on an evaluation key; needs Garmin production approval |
+| Morning check-in, plus sleep, HRV and resting HR against the runner's own range, change today's session (home) | built in the web app (docs/10 §5, `internal/app/readiness.go`); the iPhone app has no check-in yet (`lifepace-2s1s.4`) |
+| Preview of the days that change before saving; every plan version kept with its cause (home) | built (`internal/app/preview.go`, `internal/app/history.go`) |
+| Moving a session; staged return after illness, injury or a break, per site (home) | built (`R-moved-session*`, `R-comeback-*`, `R-injury-*`); the iPhone app does not move sessions yet |
+| Strength in the gym, at home or as a 10-minute snack; balance from 65; strength optional (home) | built (`StrengthStyle`, `STRENGTH_SNACK`, `balance.min_age_years`) |
+| Pregnancy, postpartum, menopause, pelvic floor, bone (home) | built (docs/10 §9); menopause gives notes only, no load change (#13) |
+| Optional race estimate, taper with a sharpener, carbohydrate for long runs, heat (home) | built (`R-race-estimate-riegel`, `R-taper-*`, `R-fuelling-long-session`, `R-heat-*`) |
+| Fitness age from VO2max (HUNT), habits score out of 100 (home) | built in the web app (`templates/longevity.html`); the iPhone app does not show it yet |
+| Run analysis and a score of how closely the run followed the plan (home) | built in the web app (`templates/run.html`, `internal/app/execution.go`) |
+| 402 rules, 121 quoting research verbatim, 73 sources, 43 session kinds (home) | counted in `internal/training/config/v1.json` on 2026-11-05 (`evidence_status` not `product_default_unvalidated`; distinct `source_id`); recount when the config changes |
 | Rules traced to a source or marked as our choice; plan says why it changed (home) | evidence labels and plan notes built; no LLM in the planning path |
+| Coming later: forgiving streaks and levels; road to a healthy baseline (home) | planned (#330, #327), not tied to launch; the page labels them "Coming later" |
 | Account, EU sign-in provider, only the subject id stored (policy 3) | Tree M M1, M-c; provider not named (`lifepace-qav.14`) |
 | Consent per health topic, fail closed, withdrawal deletes queued data too (policy 5) | Tree M M3, M-d. M3's topics do not yet cover every health input (screening, injuries, body measurements): map each before launch |
 | EU hosting, per-user key for health data, audited access (policy 6) | Tree M M4, M-b, M-c |

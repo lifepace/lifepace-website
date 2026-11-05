@@ -33,11 +33,25 @@ header nav a:hover { color: var(--mint); }
 .hero img { width: 120px; height: 120px; border-radius: 28px; box-shadow: 0 0 60px rgba(94, 224, 184, 0.25); }
 .hero h1 { font-size: 44px; margin: 28px 0 8px; letter-spacing: -0.5px; }
 .hero p.lead { font-size: 21px; color: var(--secondary); margin: 0; }
+.hero p.works { font-size: 15px; color: var(--tertiary); margin: 12px 0 0; }
+.hero.closing { padding: 8px 0 32px; }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; padding: 32px 0; }
+.cta { display: inline-block; margin-top: 28px; padding: 12px 26px; border-radius: 999px; background: var(--mint); color: var(--bg); font-weight: 700; text-decoration: none; }
+.cta:hover { filter: brightness(1.08); }
+.cta-note { font-size: 13px; color: var(--tertiary); margin: 10px 0 0; }
+
+main > h2 { font-size: 24px; margin: 32px 0 0; letter-spacing: -0.3px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; padding: 16px 0 24px; }
 .card { background: var(--surface); border-radius: 18px; padding: 20px; }
 .card h3 { margin: 0 0 6px; font-size: 17px; color: var(--mint); }
 .card p { margin: 0; color: var(--secondary); font-size: 15px; }
+.card.soon { background: transparent; border: 1px dashed var(--tertiary); }
+.card.soon h3 { color: var(--ink); }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; padding: 16px 0 0; text-align: center; }
+.stats strong { display: block; font-size: 36px; color: var(--mint); line-height: 1.1; }
+.stats span { font-size: 14px; color: var(--secondary); }
 
 .note { color: var(--tertiary); font-size: 15px; text-align: center; padding-bottom: 48px; }
 
