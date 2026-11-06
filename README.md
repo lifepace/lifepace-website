@@ -1,12 +1,14 @@
 # lifepace.eu
 
-The public website: a landing page, the privacy policy and the imprint.
+The public website: a landing page, the privacy policy, the terms of
+service and the imprint.
 Plain HTML and one stylesheet, no build step, no cookies, no external
 requests.
 
 ```text
 index.html               landing page
-privacy.html             privacy policy (app, web, planned Garmin connection, website, launch notice)
+privacy.html             privacy policy (app, web, planned Garmin and Oura connections, website, launch notice)
+terms.html               terms of service (draft by the agent, 2026-11-06; to be checked legally before launch)
 imprint.html             Impressum (§ 5 DDG)
 404.html                 "page not found", served by GitHub Pages for unknown paths
 style.css                the app's palette: navy #0E1829, mint #5EE0B8
