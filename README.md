@@ -49,7 +49,7 @@ through a local server (`python3 -m http.server`), not as files.
   at launch: an account, plans made on the server, and the athlete record
   of Tree M (decisions M1-M4 in the engine's
   docs/review-2026-10-02/PLAN.md). Section 9 still has to name the hosting
-  provider, the sign-in provider and the weather service. Section 10
+  provider and the weather service. Section 10
   names GitHub as the only host of this site; update it if the site moves
   elsewhere or if the Cloudflare records below are switched to
   **Proxied** (Cloudflare then sees every request). The review also
@@ -84,7 +84,7 @@ the engine have to deliver it before launch, or the page changes first.
 | 402 rules, 121 quoting research verbatim, 73 sources, 43 session kinds (home) | counted in `internal/training/config/v1.json` on 2026-11-05 (`evidence_status` not `product_default_unvalidated`; distinct `source_id`); recount when the config changes |
 | Rules traced to a source or marked as our choice; plan says why it changed (home) | evidence labels and plan notes built; no LLM in the planning path |
 | Coming later: forgiving streaks and levels; road to a healthy baseline (home) | planned (#330, #327), not tied to launch; the page labels them "Coming later" |
-| Account, EU sign-in provider, only the subject id stored (policy 3) | Tree M M1, M-c; provider not named (`lifepace-qav.14`) |
+| Own sign-in by e-mail code or passkey, beside Apple and Google; e-mail, passkey public keys and code hashes stored (policy 3) | built in the engine (`internal/auth/email.go`, `internal/auth/passkey.go`); codes sent through webgo SMTP (policy 9) |
 | Consent per health topic, fail closed, withdrawal deletes queued data too (policy 5) | Tree M M3, M-d. M3's topics do not yet cover every health input (screening, injuries, body measurements): map each before launch |
 | EU hosting, per-user key for health data, audited access (policy 6) | Tree M M4, M-b, M-c |
 | 24-month deletion with a 30-day email, raw device data 90 days, plan versions kept (policy 7) | Tree M M4, M-b, M-g |
