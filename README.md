@@ -87,7 +87,7 @@ the engine have to deliver it before launch, or the page changes first.
 | Own sign-in by e-mail code or passkey, beside Apple and Google; e-mail, passkey public keys and code hashes stored (policy 3) | built in the engine (`internal/auth/email.go`, `internal/auth/passkey.go`); codes sent through webgo SMTP (policy 9) |
 | Consent per health topic, fail closed, withdrawal deletes queued data too (policy 5) | Tree M M3, M-d. M3's topics do not yet cover every health input (screening, injuries, body measurements): map each before launch |
 | EU hosting, per-user key for health data, audited access (policy 6) | Tree M M4, M-b, M-c |
-| 24-month deletion with a 30-day email, raw device data 90 days, plan versions kept (policy 7) | Tree M M4, M-b, M-g |
+| 24-month deletion with a 30-day email, a run's raw file kept with the account (lifepace-engine#637), other raw device data 90 days, plan versions kept (policy 7) | Tree M M4, M-b, M-g |
 | Export, withdraw consent and delete the account in the app (policy 11) | Tree M M-b (export, deletion), M-d |
 | Garmin: activities; sleep, resting heart rate, HRV status with consent (policy 4) | Tree M M2, M-f; needs Garmin partner approval |
 | Race weather: only the location rounded to about 11 km leaves (policy 9) | built (docs/10 §9, "Handling the data"); off until launch |
